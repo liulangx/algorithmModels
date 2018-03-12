@@ -42,6 +42,46 @@ int main()
             cout << board[i][j] << " ";
         cout << endl;
     }
+    vector<int> A;
+    for(int i(0); i < 10; i++)
+        A.push_back(rand());
+    algorithmLL::insertionSort(A);
+    for(int i(0); i < A.size(); i++)
+        std::cout << A[i] << endl;
+    cout << endl;
+
+    vector<int> B;
+    for(int i(0); i < 10; i++)
+        B.push_back(rand());
+    algorithmLL::shellSort(B);
+    for(int i(0); i < B.size(); i++)
+        std::cout << B[i] << endl;
+    cout << endl;
+
+    vector<int> C;
+    for(int i(0); i < 10; i++)
+        C.push_back(rand());
+    algorithmLL::mergeSort(C);
+    for(int i(0); i < C.size(); i++)
+        std::cout << C[i] << endl;
+    cout << endl;
+
+    vector<int> D;
+    for(int i(0); i < 10; i++)
+        D.push_back(rand());
+    algorithmLL::quickSort(D);
+    for(int i(0); i < D.size(); i++)
+        std::cout << D[i] << endl;
+    cout << endl;
+
+    vector<int> E;
+    for(int i(0); i < 10; i++)
+        E.push_back(rand());
+    algorithmLL::largeObjectSort(E);
+    for(int i(0); i < E.size(); i++)
+        std::cout << E[i] << endl;
+    cout << endl;
 
     return 0;
+
 }

@@ -63,6 +63,208 @@ int binarySearch(int* a, int x, int n);
 void chessBoard(int tr, int tc, int dr, int dc, int size, int ** board, int tile = 1);
 /*********************************end**********************************/
 
+/****************************插入排序****************************/
+/*begin*/
+//main
+template <typename Comparable>
+void insertionSort(vector<Comparable> & A)
+{
+    int j, P;
+    Comparable Tmp;
+    for(P = 1; P < A.size(); P++)
+    {
+        Tmp = A[P];
+        for(j = P; j > 0 && A[j - 1] > Tmp; j--)
+            A[j] = A[j-1];
+        A[j] = Tmp;
+    }
+}
+
+/*********************************end**********************************/
+
+/****************************谢尔排序****************************/
+/*begin*/
+//main
+template <typename Comparable>
+void shellSort(vector<Comparable> & A)
+{
+    for(int gap = A.size() / 2; gap > 0; gap /= 2)
+    {
+        for(int i = gap; i < A.size(); i++)
+        {
+            Comparable tmp = A[i];
+            int j = i;
+            for(; j >= gap && tmp < A[j - gap]; j -= gap)
+            {
+                A[j] = A[j- gap];
+            }
+            A[j] = tmp;
+        }
+    }
+}
+
+/*********************************end**********************************/
+
+/****************************归并排序****************************/
+/*begin*/
+template <typename Comparable>
+void merge(vector<Comparable> &a, vector<Comparable> & tmpArray, int leftPos, int rightPos, int rightEnd)
+{
+    int leftEnd = rightPos - 1;
+    int tmpPos = leftPos;
+    int numElements = rightEnd - leftPos + 1;
+     while(leftPos <= leftEnd && rightPos <= rightEnd)
+     {
+         if(a[leftPos] <= a[rightPos])
+             tmpArray[tmpPos ++] = a[leftPos++];
+         else
+             tmpArray[tmpPos ++] = a[rightPos++];
+     }
+
+     while(leftPos <= leftEnd)
+         tmpArray[tmpPos++] = a[leftPos++];
+     while(rightPos <= rightEnd)
+         tmpArray[tmpPos++] = a[rightPos++];
+
+     for(int i = 0; i < numElements; i++, rightEnd--)
+         a[rightEnd] = tmpArray[rightEnd];
+}
+
+template <typename Comparable>
+void mergeSort( vector<Comparable> &a, vector<Comparable> & tmpArray, int left, int right)
+{
+    if(left < right)
+    {
+        int center = ( left + right ) / 2;
+        mergeSort( a, tmpArray, left, center);
+        mergeSort(a, tmpArray, center+1, right);
+        merge(a, tmpArray, left, center+1, right);
+    }
+}
+//main
+template <typename Comparable>
+void mergeSort(vector<Comparable> & a)
+{
+    vector<Comparable> tmpArray(a.size());
+    mergeSort(a, tmpArray, 0, a.size() - 1);
+}
+
+/*********************************end**********************************/
+
+/****************************快速排序****************************/
+/*begin*/
+template <typename Comparable>
+void insertionSort(vector<Comparable> & A, int left, int right)
+{
+    int j, P;
+    Comparable Tmp;
+    for(P = left; P <= right; P++)
+    {
+        Tmp = A[P];
+        for(j = P; j > 0 && A[j - 1] > Tmp; j--)
+            A[j] = A[j-1];
+        A[j] = Tmp;
+    }
+}
+template <typename Comparable>
+const Comparable & median3(vector<Comparable> & a, int left, int right)
+{
+    int center = (left + right ) / 2;
+    if(a[center] < a[left])
+        swap(a[left], a[center]);
+    if(a[right] < a[left])
+        swap(a[left], a[right]);
+    if(a[right] < a[center])
+        swap(a[center], a[right]);
+
+    swap(a[center] , a[right - 1]);
+    return a[right - 1];
+}
+template <typename Comparable>
+void quickSort(vector<Comparable> & a, int left, int right)
+{
+    if(left + 10 <= right)
+    {
+        Comparable pivot = median3(a, left, right);
+
+        int i = left, j = right - 1;
+        for(; ;)
+        {
+            while(a[++i] < pivot) {}
+            while(pivot < a[--j]) {}
+            if(i < j)
+                swap(a[i], a[j]);
+            else
+                break;
+        }
+        swap(a[i], a[right - 1]);
+        quickSort(a, left, i - 1);
+        quickSort(a, i+1, right);
+    }
+    else
+    {
+        insertionSort(a, left, right);
+    }
+}
+//main
+template <typename Comparable>
+void quickSort(vector<Comparable> & a)
+{
+    quickSort(a, 0, a.size() - 1);
+}
+/*********************************end**********************************/
+/************************大对象排序，利用智能指针****************************/
+template <typename Comparable>
+class Pointer
+{
+public:
+    Pointer(Comparable * rhs = NULL) : pointee(rhs){}
+    bool operator < (const Pointer & rhs) const
+    {
+        return *pointee < *rhs.pointee;
+    }
+
+    bool operator > (const Pointer & rhs) const
+    {
+        return *pointee > *rhs.pointee;
+    }
+
+    operator Comparable * () const
+    {
+        return pointee;
+    }
+private:
+    Comparable *pointee;
+};
+//main call quickSort;
+template <typename Comparable>
+void largeObjectSort(vector<Comparable> & a)
+{
+    vector<Pointer<Comparable> > p(a.size());
+    int i, j, nextj;
+
+    for(i = 0; i < a.size(); i++ )
+        p[i] = &a[i];
+
+    quickSort(p);
+
+    for(i = 0; i < a.size(); i ++)
+        if(p[i] != &a[i])
+        {
+            Comparable tmp = a[i];
+            for(j = i; p[j] != &a[i]; j = nextj)
+            {
+                nextj = p[j] - &a[0];
+                a[j] = *p[j];
+                p[j] = &a[j];
+            }
+            a[j] = tmp;
+            p[j] = &a[j];
+        }
+}
+
+/*********************************end**********************************/
+
 }
 
 #endif // ALGORITHMMODELS_H
