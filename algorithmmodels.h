@@ -4,6 +4,10 @@
 #include <vector>
 #include <map>
 #include <fstream>
+#include <sstream>
+#include <math.h>
+#include <algorithm>
+
 namespace algorithmLL {
 using namespace std;
 /* 递 归 问 题 */
@@ -262,6 +266,56 @@ void largeObjectSort(vector<Comparable> & a)
             p[j] = &a[j];
         }
 }
+
+/*********************************end**********************************/
+
+/************************×××××××大整数乘法××****************************/
+//来源：https://github.com/Harlan1994/Algorithms/blob/master/big_num_multiply.cpp
+int str2Int(string k); //字符串转整型
+string int2Str(int intValue); //整型转字符串
+void removePreZero(string & str); //移除字符串前端0字符
+void reverse(string::iterator begin, string::iterator end);//反转字符串
+string add(string x, string y);//大数加法
+string subtract(string &x, string &y);//大数减法
+void addPreZero(string &str, int zero_num);//添加字符串前端0字符
+string addLastZero(string str, int zero_num);//添加字符串后端0字符
+//main
+string multiply(string &x, string &y); //大数乘法
+string multiply(string x, int y);       //其他形式
+string multiply(int x, string y);
+string multiply(int x, int y);
+
+/*********************************end**********************************/
+
+/************************×××××××最接近点对问题××****************************/
+//来源：csdn
+//main
+
+#define DIST(a, b) sqrt(0.0 + (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y))
+//int n;
+struct Point
+{
+    __int64_t x, y;
+    int id;
+};
+//Point p[MAXN], px[MAXN], py[MAXN], pz[MAXN];
+bool xcmp(const Point a, const Point b);
+
+bool ycmp(const Point a, const Point b);
+
+void init(Point* p, Point* px, Point* py, int & n);
+
+void merge( Point *_pz, Point *_py, int l, int m, int r);
+
+double closest_pair( Point *_px, Point *_py, Point *_pz, int l, int r );
+
+
+/*********************************end**********************************/
+
+/************************×××××××循环赛日程表××****************************/
+//main
+void table(int k, int** a, int sizei, int sizej);
+
 
 /*********************************end**********************************/
 

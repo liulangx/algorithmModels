@@ -4,7 +4,9 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    algorithmmodels.cpp
+    algorithmmodels.cpp \
+    strassen.cpp
 
 HEADERS += \
-    algorithmmodels.h
+    algorithmmodels.h \
+    strassen.h
